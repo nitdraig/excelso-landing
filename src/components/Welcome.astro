@@ -1,60 +1,34 @@
 ---
 import "../styles/global.css";
+import DescriptionSection from "../views/IndexView/DescriptionSection.astro";
+import ProjectsSection from "../views/IndexView/ProjectsSection.astro";
+import ProfileSection from "../views/IndexView/ProfileSection.astro";
 ---
 
 <div
   class="bg-black text-white min-h-screen flex flex-col items-center py-10 px-5"
 >
   <div class="max-w-lg text-left">
-    <img src="/icon.png" alt="Excelso Logo" class="w-16 h-16 rounded-full" />
-    <h1 class="text-2xl font-bold mt-4">Excelso</h1>
-    <p class="text-gray-400 mt-2">
-      Our fundamental values ​​include excellence, innovation, integrity and
-      commitment to user satisfaction.
-    </p>
-    <p class="text-gray-400 mt-4">
-      We are to create IT solutions that have a positive impact on people's
-      lives and the success of ambient, technological and cybersecurity impact
-      projects.
-    </p>
-    <p class="text-gray-400 mt-4">
+    <img
+      src="/icon.png"
+      alt="Excelso Logo"
+      class="w-16 h-16 rounded-full invert"
+    />
+    <h1 class="text-2xl font-bold mt-2">Excelso</h1>
+    <div class="border-t mt-4"></div>
+    <DescriptionSection />
+    <div class="border-t mt-6"></div>
+    <h2 class="text-xl font-semibold mt-4">Our Projects</h2>
+    <ProjectsSection />
+    <div class="border-t mt-6"></div>
+    <p class="text-gray-400 mt-6 mb-2">
       Project developed by <a
         href="https://agustin.top"
-        class="text-blue-400 font-semibold">Agustin Avellaneda</a
+        class="text-blue-400 font-semibold hover:text-blue-700"
+        >Agustin Avellaneda</a
       >
     </p>
-    <h2 class="text-xl font-semibold mt-6">Our Projects</h2>
-    <ul class="text-gray-400 list-disc list-inside mt-2">
-      <li>
-        <a href="https://jema.excelso.xyz" class="text-blue-400 hover:underline"
-          >JEMA</a
-        >
-      </li>
-      <li>
-        <a href="https://fuddy.click" class="text-blue-400 hover:underline"
-          >Fuddy</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://roger.agustin.top"
-          class="text-blue-400 hover:underline">Roger</a
-        >
-      </li>
-    </ul>
-    <div class="flex space-x-4 mt-6">
-      <a href="https://github.com/nitdraig" target="_blank">
-        <img src="/github.svg" alt="Github Logo" class="w-6 h-6 invert" />
-      </a>
-      <a
-        href="https://www.linkedin.com/in/avellaneda-agustín-tns"
-        target="_blank"
-      >
-        <img src="/linkedin.svg" alt="Linkedin Logo" class="w-6 h-6" />
-      </a>
-      <a href="https://twitter.com/nitdraig" class="" target="_blank">
-        <img src="/x.svg" alt="Twitter Logo" class="w-6 h-6 invert" />
-      </a>
-    </div>
+
+    <ProfileSection />
   </div>
 </div>
