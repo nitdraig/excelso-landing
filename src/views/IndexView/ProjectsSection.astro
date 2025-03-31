@@ -1,25 +1,34 @@
+---
+const projectsLists = [
+  {
+    name: "JEMA",
+    link: "https://jema.excelso.xyz",
+  },
+  {
+    name: "Fuddy",
+    link: "https://fuddy.click",
+  },
+  {
+    name: "Roger",
+    link: "https://roger.agustin.top",
+  },
+];
+---
+
 <div>
   <ul class="text-gray-400 list-disc list-inside mt-2">
-    <li>
-      <a
-        href="https://jema.excelso.xyz"
-        class="text-blue-400 hover:text-blue-600 uppercase hover:underline"
-        >JEMA</a
-      >
-    </li>
-    <li>
-      <a
-        href="https://fuddy.click"
-        class="text-blue-400 hover:text-blue-600 uppercase hover:underline"
-        >Fuddy</a
-      >
-    </li>
-    <li>
-      <a
-        href="https://roger.agustin.top"
-        class="text-blue-400 hover:text-blue-600 uppercase hover:underline"
-        >Roger</a
-      >
-    </li>
+    {
+      projectsLists.map((project) => (
+        <li>
+          <a
+            href={project.link}
+            target="_blank"
+            class:list="text-blue-400 hover:text-blue-600 uppercase hover:underline"
+          >
+            {project.name}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </div>
