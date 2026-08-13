@@ -1,0 +1,32 @@
+---
+import { SITE_URL } from "@/lib/seo";
+import type { Locale } from "@/lib/seo";
+
+interface Props {
+  locale: Locale;
+  name: string;
+  description: string;
+  path: string;
+  code: string;
+}
+
+const { locale, name, description, path, code } = Astro.props;
+const url = `${SITE_URL}${path}`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ResearchOrganization",
+  name,
+  identifier: code,
+  url,
+  description,
+  parentOrganization: {
+    "@type": "Organization",
+    name: "Excelso",
+    url: SITE_URL,
+  },
+  inLanguage: locale === "es" ? "es-ES" : "en-US",
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

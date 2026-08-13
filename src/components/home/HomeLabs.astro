@@ -1,0 +1,72 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { homeCopy } from "@/content/home";
+import { labsCopy } from "@/content/labs";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = homeCopy[locale];
+const labs = labsCopy[locale];
+---
+
+<section class="w-full border-t bg-muted/30 py-24 md:py-32 lg:py-20" id="our-labs">
+  <div class="container md:px-6">
+    <div class="reveal mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter md:text-5xl/tight">{c.labsTitle}</h2>
+      <p
+        class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+      >
+        {c.labsLead}
+      </p>
+    </div>
+    <div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
+      <a
+        href={localizePath("/labs/ai", locale)}
+        class="reveal group rounded-lg border bg-background p-6 transition-transform hover:-translate-y-1"
+      >
+        <div class="mb-3 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <Icon name="cpu" class="size-6" />
+            <h3 class="text-2xl font-bold">{labs.aiName}</h3>
+          </div>
+          <span class="badge text-xs">{labs.aiCode}</span>
+        </div>
+        <p class="font-medium">{labs.aiMotto}</p>
+        <p class="mt-2 text-muted-foreground">{labs.aiBlurb}</p>
+        <p class="mt-4 inline-flex items-center gap-1 text-sm font-medium group-hover:underline">
+          {c.labsAiCta}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </p>
+      </a>
+      <a
+        href={localizePath("/labs/cybersec", locale)}
+        class="reveal group rounded-lg border bg-background p-6 transition-transform hover:-translate-y-1"
+      >
+        <div class="mb-3 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <Icon name="shield" class="size-6" />
+            <h3 class="text-2xl font-bold">{labs.secName}</h3>
+          </div>
+          <span class="badge text-xs">{labs.secCode}</span>
+        </div>
+        <p class="font-medium">{labs.secMotto}</p>
+        <p class="mt-2 text-muted-foreground">{labs.secBlurb}</p>
+        <p class="mt-4 inline-flex items-center gap-1 text-sm font-medium group-hover:underline">
+          {c.labsSecCta}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </p>
+      </a>
+    </div>
+    <div class="reveal mt-10 text-center">
+      <a href={localizePath("/labs", locale)} class="btn btn-primary group">
+        {c.labsCta}
+        <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </div>
+  </div>
+</section>

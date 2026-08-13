@@ -1,0 +1,35 @@
+---
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  title: string;
+  lead: string;
+  values: readonly { title: string; description: string }[];
+}
+
+const { title, lead, values } = Astro.props;
+---
+
+<section class="w-full py-12 md:py-20">
+  <div class="container md:px-6">
+    <div class="reveal mx-auto mb-10 max-w-3xl space-y-3 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter md:text-4xl/tight">{title}</h2>
+      <p class="text-muted-foreground md:text-lg">{lead}</p>
+    </div>
+    <div class="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2">
+      {
+        values.map((value) => (
+          <div class="reveal flex flex-col space-y-2">
+            <div class="flex items-center space-x-2">
+              <div class="rounded-full bg-foreground p-1">
+                <Icon name="check" class="size-4 text-background" />
+              </div>
+              <h3 class="font-bold">{value.title}</h3>
+            </div>
+            <p class="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

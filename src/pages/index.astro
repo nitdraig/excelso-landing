@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeHero from "@/components/home/HomeHero.astro";
+import HomeDivisions from "@/components/home/HomeDivisions.astro";
+import HomeLabs from "@/components/home/HomeLabs.astro";
+import HomeStats from "@/components/home/HomeStats.astro";
+import HomeCTA from "@/components/home/HomeCTA.astro";
+
+const locale = "en" as const;
+---
+
+<BaseLayout locale={locale}>
+  <div class="flex w-full min-w-0 flex-col">
+    <HomeHero locale={locale} />
+    <HomeDivisions locale={locale} />
+    <HomeLabs locale={locale} />
+    <HomeStats locale={locale} />
+    <HomeCTA locale={locale} />
+  </div>
+</BaseLayout>

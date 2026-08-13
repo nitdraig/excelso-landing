@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { localizePath } from "@/lib/i18n";
+import { caseStudies } from "@/data/data";
+import { vaultCopy } from "@/content/vault";
+import Icon from "@/components/Icon.astro";
+
+const locale = "es" as const;
+const c = vaultCopy[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title="Casos de estudio"
+  description={c.projectsLead}
+>
+  <section class="container py-16 md:px-6">
+    <div class="reveal mb-12 max-w-3xl">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">Casos de estudio</h1>
+      <p class="text-muted-foreground md:text-xl">{c.projectsLead}</p>
+    </div>
+    <ul class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        caseStudies.map((study) => (
+          <li>
+            <a
+              href={localizePath(`/vault/case-studies/${study.id}`, locale)}
+              class="reveal group block overflow-hidden rounded-lg border transition-all hover:-translate-y-1 hover:shadow-md"
+            >
+              <img
+                src={study.image}
+                alt={study.title}
+                class="aspect-video w-full object-cover transition-transform group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="p-5">
+                <h2 class="text-lg font-bold">{study.title}</h2>
+                <p class="mt-1 text-sm text-muted-foreground">
+                  {study.client} · {study.industry}
+                </p>
+                <p class="mt-3 line-clamp-3 text-sm text-muted-foreground">
+                  {study.challenge}
+                </p>
+                <span class="mt-4 inline-flex items-center text-sm font-medium">
+                  {c.viewCase}
+                  <Icon name="arrow-right" class="ml-1 size-4" />
+                </span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  motto: string;
+  code: string;
+  lead: string;
+  videoSrc: string;
+  ctaContact: string;
+  ctaLabs?: string;
+}
+
+const { locale, title, motto, code, lead, videoSrc, ctaContact, ctaLabs } =
+  Astro.props;
+---
+
+<section
+  class="relative flex min-h-[480px] w-full items-center justify-center overflow-hidden border-b md:min-h-[520px]"
+>
+  <video
+    src={videoSrc}
+    autoplay
+    playsinline
+    loop
+    muted
+    preload="metadata"
+    class="absolute inset-0 z-0 size-full object-cover"
+  ></video>
+  <div class="absolute inset-0 z-10 bg-black/35 backdrop-blur-md"></div>
+  <div class="container relative z-20 py-16 md:px-6">
+    <div class="max-w-2xl space-y-4">
+      <span class="badge border-white/40 bg-white/10 text-white">{code}</span>
+      <h1 class="text-3xl font-bold tracking-tighter text-white sm:text-5xl xl:text-6xl">
+        {title}
+      </h1>
+      <p class="text-lg font-medium text-white/90 md:text-xl">{motto}</p>
+      <p class="max-w-[640px] text-white/80 md:text-lg">{lead}</p>
+      <div class="flex flex-col gap-2 pt-2 min-[400px]:flex-row">
+        <a href={localizePath("/contact", locale)} class="btn btn-inverse group">
+          {ctaContact}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </a>
+        {
+          ctaLabs && (
+            <a href={localizePath("/labs", locale)} class="btn btn-ghost-dark group">
+              {ctaLabs}
+              <Icon
+                name="arrow-right"
+                class="size-4 transition-transform group-hover:translate-x-1"
+              />
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

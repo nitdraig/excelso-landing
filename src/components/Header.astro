@@ -1,0 +1,99 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { navRoutes, t } from "@/i18n/ui";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const pathname = Astro.url.pathname;
+
+function isActive(path: string): boolean {
+  const localized = localizePath(path, locale).replace(/\/+$/, "") || "/";
+  const current = pathname.replace(/\/+$/, "") || "/";
+  if (localized === "/" || localized === "/es") {
+    return current === "/" || current === "/es";
+  }
+  return current === localized || current.startsWith(`${localized}/`);
+}
+---
+
+<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+  <div class="container flex h-16 items-center justify-between">
+    <a href={localizePath("/", locale)} class="flex items-center">
+      <img
+        src="/excelso-logo-1.png"
+        alt="Excelso"
+        width="140"
+        height="40"
+        class="h-10 w-auto object-contain"
+      />
+    </a>
+
+    <nav class="hidden items-center gap-4 lg:gap-6 md:flex" aria-label="Primary">
+      {
+        navRoutes.map((route) => (
+          <a
+            href={localizePath(route.path, locale)}
+            class:list={[
+              "text-sm font-medium transition-colors hover:text-foreground/80",
+              isActive(route.path) ? "text-foreground" : "text-foreground/60",
+            ]}
+            aria-current={isActive(route.path) ? "page" : undefined}
+          >
+            {t(locale, route.key)}
+          </a>
+        ))
+      }
+      <LanguageSwitcher locale={locale} />
+    </nav>
+
+    <div class="flex items-center gap-2 md:hidden">
+      <LanguageSwitcher locale={locale} />
+      <button
+        type="button"
+        class="inline-flex size-10 items-center justify-center rounded-md border border-border"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label={t(locale, "nav.toggle")}
+      >
+        <span class="sr-only">{t(locale, "nav.toggle")}</span>
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="hidden border-t md:hidden" data-menu-panel>
+    <nav class="container flex flex-col py-4" aria-label="Mobile">
+      {
+        navRoutes.map((route) => (
+          <a
+            href={localizePath(route.path, locale)}
+            class:list={[
+              "py-2 text-sm font-medium",
+              isActive(route.path) ? "text-foreground" : "text-foreground/60",
+            ]}
+          >
+            {t(locale, route.key)}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const panel = document.querySelector("[data-menu-panel]");
+
+  toggle?.addEventListener("click", () => {
+    const open = panel?.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+</script>

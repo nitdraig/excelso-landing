@@ -1,0 +1,42 @@
+---
+import { SITE_URL } from "@/lib/seo";
+import type { Locale } from "@/lib/seo";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Excelso",
+  url: SITE_URL,
+  description:
+    locale === "es"
+      ? "Innovación, excelencia e impacto positivo. Catalizamos transformación digital, ciberseguridad, inteligencia artificial y sostenibilidad."
+      : "Innovation, excellence and positive impact. We act as catalysts for digital transformation, computer security, artificial intelligence and sustainability.",
+  logo: `${SITE_URL}/excelso-logo-1.png`,
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Excelso",
+  url: SITE_URL,
+  inLanguage: locale === "es" ? "es-ES" : "en-US",
+  description:
+    locale === "es"
+      ? "Excelso — Lo resolvemos pensando en vos. Somos soluciones. Somos Excelso."
+      : "Excelso - We fix it thinking of you. We are solutions. We are Excelso.",
+  publisher: {
+    "@type": "Organization",
+    name: "Excelso",
+    url: SITE_URL,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />

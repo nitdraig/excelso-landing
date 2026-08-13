@@ -1,0 +1,87 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { labsCopy } from "@/content/labs";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = labsCopy[locale];
+
+const cards = [
+  {
+    href: "/labs/ai",
+    icon: "cpu" as const,
+    name: c.aiName,
+    code: c.aiCode,
+    motto: c.aiMotto,
+    blurb: c.aiBlurb,
+  },
+  {
+    href: "/labs/cybersec",
+    icon: "shield" as const,
+    name: c.secName,
+    code: c.secCode,
+    motto: c.secMotto,
+    blurb: c.secBlurb,
+  },
+];
+---
+
+<section class="relative flex min-h-[420px] w-full items-center justify-center overflow-hidden border-b md:min-h-[480px]">
+  <video
+    src="/videos/bg6.webm"
+    autoplay
+    playsinline
+    loop
+    muted
+    preload="metadata"
+    class="absolute inset-0 z-0 size-full object-cover"
+  ></video>
+  <div class="absolute inset-0 z-10 bg-black/40 backdrop-blur-md"></div>
+  <div class="container relative z-20 py-16 md:px-6 md:py-24">
+    <div class="mx-auto max-w-3xl space-y-4 text-center">
+      <span class="badge border-white/40 bg-white/10 text-white">{c.badge}</span>
+      <h1 class="text-3xl font-bold tracking-tighter text-white sm:text-5xl xl:text-6xl/none">
+        {c.title}
+      </h1>
+      <p class="text-white/90 md:text-xl">{c.lead}</p>
+      <p class="text-sm text-white/75 md:text-base">{c.positioning}</p>
+    </div>
+  </div>
+</section>
+
+<section class="w-full py-12 md:py-20">
+  <div class="container md:px-6">
+    <div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
+      {
+        cards.map((card) => (
+          <a
+            href={localizePath(card.href, locale)}
+            class="reveal group flex flex-col rounded-lg border bg-background p-6 transition-transform hover:-translate-y-1"
+          >
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <Icon name={card.icon} class="size-6" />
+                <h2 class="text-2xl font-bold">{card.name}</h2>
+              </div>
+              <span class="badge shrink-0 text-xs">{card.code}</span>
+            </div>
+            <p class="font-medium">{card.motto}</p>
+            <p class="mt-2 flex-1 text-muted-foreground leading-relaxed">{card.blurb}</p>
+            <p class="mt-4 inline-flex items-center gap-1 text-sm font-medium group-hover:underline">
+              {c.cardsCta}
+              <Icon
+                name="arrow-right"
+                class="size-4 transition-transform group-hover:translate-x-1"
+              />
+            </p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

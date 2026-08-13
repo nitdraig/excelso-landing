@@ -1,0 +1,83 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import {
+  SITE_URL,
+  defaultMetadata,
+  localeMeta,
+  type Locale,
+} from "@/lib/seo";
+import { getPathWithoutLocale, localizePath } from "@/lib/i18n";
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  locale,
+  title = defaultMetadata.title,
+  description = defaultMetadata.description,
+  ogImage = "/og/excelso.webp",
+} = Astro.props;
+
+const meta = localeMeta[locale];
+const path = getPathWithoutLocale(Astro.url.pathname);
+const canonicalHref = new URL(Astro.url.pathname, SITE_URL).href;
+const enHref = new URL(localizePath(path, "en"), SITE_URL).href;
+const esHref = new URL(localizePath(path, "es"), SITE_URL).href;
+const pageTitle =
+  title === defaultMetadata.title ? title : `${title} | Excelso`;
+---
+
+<!doctype html>
+<html lang={meta.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="es" href={esHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={defaultMetadata.openGraph.siteName} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:image" content={new URL(ogImage, SITE_URL).href} />
+    <meta name="twitter:card" content={defaultMetadata.twitter.card} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <JsonLd locale={locale} />
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-dvh flex-col font-sans">
+    <Header locale={locale} />
+    <main class="min-w-0 flex-1">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/count-up.ts"></script>
+  </body>
+</html>

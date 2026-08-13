@@ -1,0 +1,38 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { homeCopy } from "@/content/home";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = homeCopy[locale];
+---
+
+<section class="w-full py-24 md:py-32 lg:py-40">
+  <div class="container md:px-6">
+    <div class="reveal mx-auto max-w-3xl space-y-8 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter md:text-5xl">{c.ctaTitle}</h2>
+      <p class="text-xl text-muted-foreground">{c.ctaLead}</p>
+      <div class="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
+        <a
+          href={localizePath("/contact", locale)}
+          class="btn btn-lg btn-primary group"
+        >
+          {c.ctaContact}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </a>
+        <a
+          href={localizePath("/about", locale)}
+          class="btn btn-lg btn-outline group"
+        >
+          {c.ctaAbout}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

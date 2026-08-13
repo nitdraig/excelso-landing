@@ -1,0 +1,82 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { homeCopy } from "@/content/home";
+import Icon from "@/components/Icon.astro";
+import VantaRings from "@/components/home/VantaRings.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = homeCopy[locale];
+---
+
+<section
+  class="relative flex min-h-screen w-full items-center overflow-hidden border-b"
+>
+  <VantaRings />
+
+  <div class="pointer-events-none absolute inset-0 z-[1]">
+    <div class="bg-grid-pattern absolute inset-0 opacity-20"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background"
+    >
+    </div>
+  </div>
+
+  <div class="container relative z-10 py-28 md:px-6">
+    <div class="max-w-3xl space-y-6">
+      <span
+        class="font-display inline-block rounded-full border border-[#BA0201] px-3 py-1 text-sm font-medium"
+      >
+        {c.badge}
+      </span>
+      <h1
+        class="font-display text-3xl font-bold tracking-tighter lg:mt-2 lg:text-4xl xl:text-7xl/none"
+      >
+        {c.h1a}
+        <br />
+        <span class="inline-block">
+          {c.h1bPrefix}
+          <span class="relative">
+            {c.h1bHighlight}
+            <span
+              class="hero-underline absolute bottom-0 left-0 h-[2px] bg-foreground"
+            ></span>
+          </span>.
+        </span>
+        <br />
+        {c.h1c}
+      </h1>
+      <p class="max-w-[600px] text-[#5e5d5d] md:text-xl">{c.lead}</p>
+      <div class="flex flex-col gap-3 min-[400px]:flex-row">
+        <a
+          href={localizePath("/vault", locale)}
+          class="btn btn-lg btn-primary group"
+        >
+          {c.ctaVault}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </a>
+        <a
+          href={localizePath("/open", locale)}
+          class="btn btn-lg btn-outline group"
+        >
+          {c.ctaOpen}
+          <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <a
+    href="#our-divisions"
+    class="scroll-hint absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center"
+  >
+    <span class="mb-2 text-xs text-muted-foreground">{c.scroll}</span>
+    <div class="flex h-10 w-6 justify-center rounded-full border-2 p-1">
+      <div class="scroll-dot size-1 rounded-full bg-foreground"></div>
+    </div>
+  </a>
+</section>

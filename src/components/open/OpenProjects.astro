@@ -1,0 +1,108 @@
+---
+import type { Locale } from "@/lib/seo";
+import { openCopy } from "@/content/open";
+import { openSourceProjects } from "@/data/data";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = openCopy[locale];
+const projects = [...openSourceProjects].reverse();
+---
+
+<section class="w-full py-12 md:py-24 lg:py-32" id="open-projects">
+  <div class="container md:px-6">
+    <div class="reveal mb-12 flex flex-col items-center justify-center space-y-4 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+        {c.projectsTitle}
+      </h2>
+      <p
+        class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+      >
+        {c.projectsLead}
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((project) => (
+          <article class="reveal group relative overflow-hidden rounded-lg border bg-background transition-all hover:-translate-y-1 hover:shadow-md">
+            <div class="relative h-48 w-full overflow-hidden">
+              <img
+                src={project.image}
+                alt={project.name}
+                class="size-full object-cover transition-transform group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-6">
+              <div class="mb-3 flex items-center justify-between gap-2">
+                <h3 class="text-xl font-bold">{project.name}</h3>
+                {project.language && (
+                  <span class="badge shrink-0">{project.language}</span>
+                )}
+              </div>
+              <p class="mb-4 text-muted-foreground">{project.description}</p>
+              <div class="mb-4 flex flex-wrap gap-2">
+                {project.tags.slice(0, 4).map((tag) => (
+                  <span class="badge badge-muted">{tag}</span>
+                ))}
+              </div>
+              {(project.stars != null || project.forks != null) && (
+                <div class="mb-4 flex items-center justify-between text-sm text-muted-foreground">
+                  <div class="flex items-center">
+                    <Icon name="star" class="mr-1 size-4" />
+                    <span>{project.stars ?? 0}</span>
+                  </div>
+                  <div class="flex items-center">
+                    <Icon name="git-fork" class="mr-1 size-4" />
+                    <span>{project.forks ?? 0}</span>
+                  </div>
+                  <div class="flex items-center">
+                    <Icon name="users" class="mr-1 size-4" />
+                    <span>{project.contributors ?? 0}</span>
+                  </div>
+                </div>
+              )}
+              <div class="flex flex-col gap-2 sm:flex-row">
+                <a
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-outline w-full sm:w-1/2"
+                >
+                  <Icon name="github" class="size-4" />
+                  {c.repo}
+                </a>
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary w-full sm:w-1/2"
+                >
+                  <Icon name="external-link" class="size-4" />
+                  {c.demo}
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="reveal mt-12 text-center">
+      <a
+        href="https://github.com/excelso-tech"
+        class="btn btn-lg btn-primary group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {c.viewAll}
+        <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+---
+/**
+ * Vanta RINGS hero background (Three.js).
+ * Client-only; skipped when prefers-reduced-motion.
+ */
+---
+
+<div
+  class="absolute inset-0 z-0 overflow-hidden opacity-30 lg:opacity-50"
+  aria-hidden="true"
+>
+  <div data-vanta-rings class="absolute inset-0 size-full min-h-full">
+  </div>
+</div>
+
+<script>
+  import * as THREE from "three";
+  import RINGS from "vanta/dist/vanta.rings.min";
+
+  type VantaEffect = { destroy: () => void };
+
+  let effect: VantaEffect | null = null;
+
+  function destroy() {
+    effect?.destroy();
+    effect = null;
+  }
+
+  function initVantaRings() {
+    const el = document.querySelector<HTMLElement>("[data-vanta-rings]");
+    if (!el || effect) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.style.backgroundColor = "#c3c3c3";
+      return;
+    }
+
+    // Ensure the host has layout size before WebGL init
+    if (el.offsetHeight < 2) {
+      el.style.minHeight = "100vh";
+    }
+
+    try {
+      effect = RINGS({
+        el,
+        THREE,
+        color: 0x0,
+        backgroundColor: 0xc3c3c3,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        forceAnimate: true,
+      });
+    } catch (error) {
+      console.error("[VantaRings] failed to init", error);
+      el.style.backgroundColor = "#c3c3c3";
+    }
+  }
+
+  function scheduleInit() {
+    requestAnimationFrame(() => {
+      initVantaRings();
+      // Vanta sometimes needs a second resize after fonts/layout settle
+      window.setTimeout(() => {
+        window.dispatchEvent(new Event("resize"));
+      }, 100);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scheduleInit, { once: true });
+  } else {
+    scheduleInit();
+  }
+
+  document.addEventListener("astro:before-swap", destroy);
+  window.addEventListener("pagehide", destroy);
+</script>

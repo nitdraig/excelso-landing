@@ -1,0 +1,17 @@
+# build
+dist/
+.astro/
+.vercel/
+
+# deps
+node_modules/
+
+# env
+.env
+.env.*
+!.env.example
+
+# editors / OS
+.DS_Store
+Thumbs.db
+*.log

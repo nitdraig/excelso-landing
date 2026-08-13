@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import VaultHero from "@/components/vault/VaultHero.astro";
+import VaultServices from "@/components/vault/VaultServices.astro";
+import VaultProjects from "@/components/vault/VaultProjects.astro";
+import VaultCTA from "@/components/vault/VaultCTA.astro";
+import { vaultCopy } from "@/content/vault";
+
+const locale = "es" as const;
+const c = vaultCopy[locale];
+---
+
+<BaseLayout locale={locale} title={c.title} description={c.lead}>
+  <div class="flex flex-col">
+    <VaultHero locale={locale} />
+    <VaultServices locale={locale} />
+    <VaultProjects locale={locale} />
+    <VaultCTA locale={locale} />
+  </div>
+</BaseLayout>

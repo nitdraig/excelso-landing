@@ -1,0 +1,40 @@
+---
+import type { Locale } from "@/lib/seo";
+import { getPathWithoutLocale, localizePath } from "@/lib/i18n";
+import { t } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const basePath = getPathWithoutLocale(Astro.url.pathname);
+const enHref = localizePath(basePath, "en");
+const esHref = localizePath(basePath, "es");
+---
+
+<nav class="flex items-center gap-1 text-xs font-medium" aria-label={t(locale, "lang.switch")}>
+  <a
+    href={enHref}
+    class:list={[
+      "px-2 py-1 transition-colors",
+      locale === "en" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+    ]}
+    hreflang="en"
+    aria-current={locale === "en" ? "true" : undefined}
+  >
+    EN
+  </a>
+  <span class="text-muted-foreground" aria-hidden="true">|</span>
+  <a
+    href={esHref}
+    class:list={[
+      "px-2 py-1 transition-colors",
+      locale === "es" ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+    ]}
+    hreflang="es"
+    aria-current={locale === "es" ? "true" : undefined}
+  >
+    ES
+  </a>
+</nav>

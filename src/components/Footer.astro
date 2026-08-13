@@ -1,0 +1,42 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { t } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+
+const links = [
+  { key: "nav.about" as const, path: "/about" },
+  { key: "nav.vault" as const, path: "/vault" },
+  { key: "nav.open" as const, path: "/open" },
+  { key: "nav.labs" as const, path: "/labs" },
+  { key: "nav.contact" as const, path: "/contact" },
+  { key: "footer.privacy" as const, path: "/privacy" },
+  { key: "footer.terms" as const, path: "/terms" },
+];
+---
+
+<footer class="w-full border-t py-6">
+  <div class="container flex flex-col items-center justify-between gap-4 md:flex-row">
+    <p class="text-sm text-muted-foreground">
+      &copy; {year} Excelso. {t(locale, "footer.rights")}
+    </p>
+    <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-end" aria-label="Footer">
+      {
+        links.map((link) => (
+          <a
+            href={localizePath(link.path, locale)}
+            class="text-xs text-muted-foreground hover:text-foreground"
+          >
+            {t(locale, link.key)}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</footer>

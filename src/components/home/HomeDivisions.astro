@@ -1,0 +1,120 @@
+---
+import type { Locale } from "@/lib/seo";
+import { localizePath } from "@/lib/i18n";
+import { homeCopy } from "@/content/home";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = homeCopy[locale];
+
+const vaultBullets = [
+  { icon: "zap" as const, text: c.vaultBullets[0] },
+  { icon: "cpu" as const, text: c.vaultBullets[1] },
+  { icon: "server" as const, text: c.vaultBullets[2] },
+];
+
+const openBullets = [
+  { icon: "code" as const, text: c.openBullets[0] },
+  { icon: "recycle" as const, text: c.openBullets[1] },
+  { icon: "zap" as const, text: c.openBullets[2] },
+];
+---
+
+<section class="w-full py-24 md:py-32 lg:py-14" id="our-divisions">
+  <div class="container md:px-6">
+    <div class="reveal mb-16 flex flex-col items-center justify-center space-y-4 text-center">
+      <h2 class="text-3xl font-bold tracking-tighter md:text-5xl/tight">
+        {c.divisionsTitle}
+      </h2>
+      <p
+        class="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+      >
+        {c.divisionsLead}
+      </p>
+    </div>
+
+    <div class="grid gap-16">
+      <div class="reveal grid items-center gap-8 lg:grid-cols-2">
+        <div class="order-2 space-y-4 lg:order-1">
+          <div class="flex items-center space-x-2">
+            <Icon name="shield" class="size-6" />
+            <h3 class="text-2xl font-bold">{c.vaultTitle}</h3>
+          </div>
+          <p class="text-muted-foreground">{c.vaultLead}</p>
+          <div class="space-y-2">
+            {
+              vaultBullets.map((item) => (
+                <div class="flex items-center space-x-2">
+                  <Icon name={item.icon} class="size-4 text-muted-foreground" />
+                  <span>{item.text}</span>
+                </div>
+              ))
+            }
+          </div>
+          <div class="pt-4">
+            <a href={localizePath("/vault", locale)} class="btn btn-primary group">
+              {c.ctaVault}
+              <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
+        <div
+          class="relative order-1 h-[300px] overflow-hidden rounded-lg border md:h-[400px] lg:order-2"
+        >
+          <video
+            src="/videos/bg.webm"
+            class="absolute inset-0 size-full object-cover"
+            autoplay
+            playsinline
+            loop
+            muted
+            preload="metadata"
+          ></video>
+          <div class="bg-grid-small-pattern absolute inset-0 opacity-30"></div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-2 grid items-center gap-8 lg:grid-cols-2">
+        <div class="relative h-[300px] overflow-hidden rounded-lg border md:h-[400px]">
+          <video
+            src="/videos/bg3.webm"
+            class="absolute inset-0 size-full object-cover"
+            autoplay
+            playsinline
+            loop
+            muted
+            preload="metadata"
+          ></video>
+          <div class="bg-grid-small-pattern absolute inset-0 opacity-30"></div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <Icon name="code" class="size-6" />
+            <h3 class="text-2xl font-bold">{c.openTitle}</h3>
+          </div>
+          <p class="text-muted-foreground">{c.openLead}</p>
+          <div class="space-y-2">
+            {
+              openBullets.map((item) => (
+                <div class="flex items-center space-x-2">
+                  <Icon name={item.icon} class="size-4 text-muted-foreground" />
+                  <span>{item.text}</span>
+                </div>
+              ))
+            }
+          </div>
+          <div class="pt-4">
+            <a href={localizePath("/open", locale)} class="btn btn-primary group">
+              {c.ctaOpen}
+              <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import LabHero from "@/components/labs/LabHero.astro";
+import LabMission from "@/components/labs/LabMission.astro";
+import LabValues from "@/components/labs/LabValues.astro";
+import LabFocus from "@/components/labs/LabFocus.astro";
+import LabOutcomes from "@/components/labs/LabOutcomes.astro";
+import LabCTA from "@/components/labs/LabCTA.astro";
+import LabJsonLd from "@/components/labs/LabJsonLd.astro";
+import { cybersecLabCopy } from "@/content/cybersec-lab";
+import { localizePath } from "@/lib/i18n";
+
+const locale = "en" as const;
+const c = cybersecLabCopy[locale];
+---
+
+<BaseLayout locale={locale} title={c.seoTitle} description={c.seoDescription}>
+  <LabJsonLd
+    slot="head"
+    locale={locale}
+    name={c.title}
+    description={c.seoDescription}
+    path={localizePath("/labs/cybersec", locale)}
+    code={c.code}
+  />
+  <div class="flex flex-col">
+    <LabHero
+      locale={locale}
+      title={c.title}
+      motto={c.motto}
+      code={c.code}
+      lead={c.lead}
+      videoSrc="/videos/bg4.webm"
+      ctaContact={c.ctaContact}
+      ctaLabs={c.ctaLabs}
+    />
+    <LabMission
+      missionTitle={c.missionTitle}
+      mission={c.mission}
+      visionTitle={c.visionTitle}
+      vision={c.vision}
+    />
+    <LabValues title={c.valuesTitle} lead={c.valuesLead} values={c.values} />
+    <LabFocus title={c.focusTitle} lead={c.focusLead} items={c.focus} />
+    <LabOutcomes locale={locale} />
+    <LabCTA
+      locale={locale}
+      title={c.ctaTitle}
+      lead={c.ctaLead}
+      ctaContact={c.ctaContact}
+      ctaOpen={c.ctaOpen}
+      ctaVault={c.ctaVault}
+    />
+  </div>
+</BaseLayout>

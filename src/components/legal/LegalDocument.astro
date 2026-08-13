@@ -1,0 +1,109 @@
+---
+import type { Locale } from "@/lib/seo";
+import type { LegalArticle, LegalTermsPrivacy } from "@/content/legalCopy";
+import { localizePath } from "@/lib/i18n";
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  locale: Locale;
+  kind: "privacy" | "terms";
+  copy: LegalTermsPrivacy;
+}
+
+const { locale, kind, copy } = Astro.props;
+
+const isPrivacy = kind === "privacy";
+const title = isPrivacy ? copy.privacyTitle : copy.termsTitle;
+const lastUpdated = isPrivacy ? copy.privacyLastUpdated : copy.termsLastUpdated;
+const intro = isPrivacy ? copy.privacyIntro : copy.termsIntro;
+const articles: readonly LegalArticle[] = isPrivacy
+  ? copy.privacyArticles
+  : copy.termsArticles;
+const crossHref = isPrivacy ? "/terms" : "/privacy";
+const crossLabel = isPrivacy ? copy.termsTitle : copy.privacyTitle;
+const iconName = isPrivacy ? ("shield" as const) : ("file-text" as const);
+---
+
+<section class="w-full border-b bg-muted/30">
+  <div class="container relative py-10 md:px-6 md:py-14 lg:py-16">
+    <div class="mb-6">
+      <a
+        href={localizePath("/", locale)}
+        class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+      >
+        <Icon name="arrow-right" class="size-4 rotate-180" />
+        {copy.backToHome}
+      </a>
+    </div>
+
+    <div class="flex max-w-4xl flex-col gap-6">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+        <div
+          class="flex size-14 shrink-0 items-center justify-center rounded-xl border bg-background"
+          aria-hidden="true"
+        >
+          <Icon name={iconName} class="size-7" />
+        </div>
+        <div class="min-w-0 flex-1 space-y-3">
+          <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl/tight">
+            {title}
+          </h1>
+          <p class="text-sm font-medium text-muted-foreground">{lastUpdated}</p>
+          <p class="max-w-3xl leading-relaxed text-muted-foreground md:text-lg/relaxed">
+            {intro}
+          </p>
+        </div>
+      </div>
+
+      <aside class="max-w-3xl rounded-lg border bg-background/80 px-4 py-3 text-sm text-muted-foreground">
+        {copy.alsoReadIntro}{" "}
+        <a
+          href={localizePath(crossHref, locale)}
+          class="font-medium text-foreground underline underline-offset-4 hover:text-foreground/80"
+        >
+          {crossLabel}
+        </a>.
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="w-full py-10 md:py-14 lg:py-16">
+  <div class="container md:px-6">
+    <article class="mx-auto max-w-3xl space-y-10" lang={locale}>
+      <div class="space-y-8">
+        {
+          articles.map((article, i) => (
+            <section aria-labelledby={`legal-article-title-${i}`}>
+              <h2
+                id={`legal-article-title-${i}`}
+                class="scroll-mt-24 text-xl font-bold tracking-tight text-foreground"
+              >
+                {article.title}
+              </h2>
+              <div class="mt-4 space-y-4">
+                {article.paragraphs.map((paragraph) => (
+                  <p class="text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <footer class="border-t border-border/60 pt-8">
+        <p class="text-sm text-muted-foreground">
+          {copy.contactLabel}{" "}
+          <a
+            href={`mailto:${copy.supportEmail}`}
+            class="font-medium text-foreground underline underline-offset-4 hover:no-underline"
+          >
+            {copy.supportEmail}
+          </a>
+        </p>
+      </footer>
+    </article>
+  </div>
+</section>

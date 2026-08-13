@@ -1,0 +1,26 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeHero from "@/components/home/HomeHero.astro";
+import HomeDivisions from "@/components/home/HomeDivisions.astro";
+import HomeLabs from "@/components/home/HomeLabs.astro";
+import HomeStats from "@/components/home/HomeStats.astro";
+import HomeCTA from "@/components/home/HomeCTA.astro";
+import { homeCopy } from "@/content/home";
+
+const locale = "es" as const;
+const c = homeCopy[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title="Excelso | Lo resolvemos pensando en vos. Somos soluciones. Somos Excelso."
+  description={c.lead}
+>
+  <div class="flex w-full min-w-0 flex-col">
+    <HomeHero locale={locale} />
+    <HomeDivisions locale={locale} />
+    <HomeLabs locale={locale} />
+    <HomeStats locale={locale} />
+    <HomeCTA locale={locale} />
+  </div>
+</BaseLayout>

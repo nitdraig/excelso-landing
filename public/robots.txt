@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+
+Sitemap: https://excelso.xyz/sitemap-index.xml

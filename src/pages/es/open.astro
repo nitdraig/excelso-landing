@@ -1,0 +1,18 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import OpenHero from "@/components/open/OpenHero.astro";
+import OpenProjects from "@/components/open/OpenProjects.astro";
+import OpenCTA from "@/components/open/OpenCTA.astro";
+import { openCopy } from "@/content/open";
+
+const locale = "es" as const;
+const c = openCopy[locale];
+---
+
+<BaseLayout locale={locale} title={c.title} description={c.lead}>
+  <div class="flex flex-col">
+    <OpenHero locale={locale} />
+    <OpenProjects locale={locale} />
+    <OpenCTA locale={locale} />
+  </div>
+</BaseLayout>

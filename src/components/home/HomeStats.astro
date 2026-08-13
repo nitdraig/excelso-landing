@@ -1,0 +1,28 @@
+---
+import type { Locale } from "@/lib/seo";
+import { homeCopy } from "@/content/home";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = homeCopy[locale];
+---
+
+<section class="w-full border-y bg-muted/30 py-24 md:py-32">
+  <div class="container md:px-6">
+    <div class="grid grid-cols-2 gap-8 md:grid-cols-3 md:gap-12">
+      {
+        c.stats.map((stat) => (
+          <div class="reveal text-center">
+            <div class="mb-2 text-4xl font-bold md:text-5xl">
+              <span data-count-to={stat.to} data-count-duration="2000">0</span>+
+            </div>
+            <div class="text-sm text-muted-foreground">{stat.label}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

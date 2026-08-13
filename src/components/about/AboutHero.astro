@@ -1,0 +1,39 @@
+---
+import type { Locale } from "@/lib/seo";
+import { aboutCopy } from "@/content/about";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = aboutCopy[locale];
+---
+
+<section class="relative w-full border-b py-12 md:py-24 lg:py-2 lg:pb-10">
+  <video
+    src="/videos/bg4.webm"
+    autoplay
+    playsinline
+    loop
+    muted
+    preload="metadata"
+    class="absolute inset-0 z-0 size-full object-cover"
+  ></video>
+  <div class="absolute inset-0 z-10 bg-black/20 backdrop-blur-lg"></div>
+  <div class="container relative z-20 mt-20 md:px-6">
+    <h1 class="text-center text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
+      {c.title}
+    </h1>
+    <div class="mt-8 space-y-8 px-4 md:px-10">
+      <div class="space-y-2 text-gray-200">
+        <h2 class="text-2xl font-bold">{c.missionTitle}</h2>
+        <p class="text-gray-100">{c.mission}</p>
+      </div>
+      <div class="space-y-2 text-gray-200">
+        <h2 class="text-2xl font-bold">{c.visionTitle}</h2>
+        <p class="text-gray-100">{c.vision}</p>
+      </div>
+    </div>
+  </div>
+</section>

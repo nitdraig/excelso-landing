@@ -1,0 +1,25 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import LabsHub from "@/components/labs/LabsHub.astro";
+import LabOutcomes from "@/components/labs/LabOutcomes.astro";
+import LabCTA from "@/components/labs/LabCTA.astro";
+import { labsCopy } from "@/content/labs";
+
+const locale = "en" as const;
+const c = labsCopy[locale];
+---
+
+<BaseLayout locale={locale} title={c.seoTitle} description={c.seoDescription}>
+  <div class="flex flex-col">
+    <LabsHub locale={locale} />
+    <LabOutcomes locale={locale} />
+    <LabCTA
+      locale={locale}
+      title={c.ctaTitle}
+      lead={c.ctaLead}
+      ctaContact={c.ctaContact}
+      ctaOpen={c.ctaOpen}
+      ctaVault={c.ctaVault}
+    />
+  </div>
+</BaseLayout>

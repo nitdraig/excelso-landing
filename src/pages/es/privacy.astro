@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import LegalDocument from "@/components/legal/LegalDocument.astro";
+import { legalTermsPrivacyEs } from "@/content/legalCopy";
+
+const locale = "es" as const;
+const copy = legalTermsPrivacyEs;
+---
+
+<BaseLayout
+  locale={locale}
+  title={copy.privacyTitle}
+  description={copy.privacyIntro.slice(0, 160)}
+>
+  <LegalDocument locale={locale} kind="privacy" copy={copy} />
+</BaseLayout>

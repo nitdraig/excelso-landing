@@ -1,0 +1,176 @@
+---
+import type { Locale } from "@/lib/seo";
+import { contactCopy } from "@/content/contact";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = contactCopy[locale];
+---
+
+<section class="w-full pb-14 pt-10">
+  <div class="container md:px-6">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div class="flex flex-col justify-center space-y-4">
+        <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+          {c.title}
+        </h1>
+        <p class="max-w-[600px] text-muted-foreground md:text-xl">{c.lead}</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="space-y-2">
+          <h2 class="text-2xl font-bold">{c.formTitle}</h2>
+          <p class="text-muted-foreground">{c.formLead}</p>
+        </div>
+
+        <form class="space-y-4" data-contact-form novalidate>
+          <div class="space-y-1">
+            <label class="sr-only" for="fullname">{c.fullname}</label>
+            <input
+              id="fullname"
+              name="fullname"
+              type="text"
+              autocomplete="name"
+              placeholder={c.fullname}
+              required
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+            <p class="hidden text-sm text-red-500" data-error-for="fullname"></p>
+          </div>
+
+          <div class="space-y-1">
+            <label class="sr-only" for="email">{c.email}</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder={c.email}
+              required
+              class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            />
+            <p class="hidden text-sm text-red-500" data-error-for="email"></p>
+          </div>
+
+          <div class="space-y-1">
+            <label class="sr-only" for="message">{c.message}</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              placeholder={c.message}
+              required
+              class="flex min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            ></textarea>
+            <p class="hidden text-sm text-red-500" data-error-for="message"></p>
+          </div>
+
+          <p class="hidden text-sm text-blue-600" data-status="sending">{c.sending}</p>
+          <p class="hidden text-sm text-green-600" data-status="success"></p>
+          <p class="hidden text-sm text-red-600" data-status="error"></p>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-full"
+            data-submit
+          >
+            {c.submit}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script
+  define:vars={{
+    errorMessages: c.errors,
+    successFallback: c.success,
+    errorFallback: c.error,
+  }}
+>
+  const form = document.querySelector("[data-contact-form]");
+  if (!(form instanceof HTMLFormElement)) return;
+
+  const submitBtn = form.querySelector("[data-submit]");
+  const sendingEl = form.querySelector('[data-status="sending"]');
+  const successEl = form.querySelector('[data-status="success"]');
+  const errorEl = form.querySelector('[data-status="error"]');
+
+  function clearErrors() {
+    form.querySelectorAll("[data-error-for]").forEach((el) => {
+      el.textContent = "";
+      el.classList.add("hidden");
+    });
+    sendingEl?.classList.add("hidden");
+    successEl?.classList.add("hidden");
+    errorEl?.classList.add("hidden");
+  }
+
+  function showFieldError(field, message) {
+    const el = form.querySelector(`[data-error-for="${field}"]`);
+    if (!el) return;
+    el.textContent = message;
+    el.classList.remove("hidden");
+  }
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearErrors();
+
+    const data = new FormData(form);
+    const payload = {
+      fullname: String(data.get("fullname") ?? "").trim(),
+      email: String(data.get("email") ?? "").trim(),
+      message: String(data.get("message") ?? "").trim(),
+    };
+
+    let valid = true;
+    if (!payload.fullname) {
+      showFieldError("fullname", errorMessages.fullname);
+      valid = false;
+    }
+    if (!payload.email || !isValidEmail(payload.email)) {
+      showFieldError("email", errorMessages.email);
+      valid = false;
+    }
+    if (!payload.message) {
+      showFieldError("message", errorMessages.message);
+      valid = false;
+    }
+    if (!valid) return;
+
+    submitBtn?.setAttribute("disabled", "true");
+    sendingEl?.classList.remove("hidden");
+
+    try {
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          typeof json.error === "string" ? json.error : errorFallback,
+        );
+      }
+      successEl.textContent = json.message || successFallback;
+      successEl.classList.remove("hidden");
+      form.reset();
+    } catch (err) {
+      errorEl.textContent = `Error: ${err instanceof Error ? err.message : errorFallback}`;
+      errorEl.classList.remove("hidden");
+    } finally {
+      sendingEl?.classList.add("hidden");
+      submitBtn?.removeAttribute("disabled");
+    }
+  });
+</script>

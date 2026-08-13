@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AboutHero from "@/components/about/AboutHero.astro";
+import AboutValues from "@/components/about/AboutValues.astro";
+import { aboutCopy } from "@/content/about";
+
+const locale = "en" as const;
+const c = aboutCopy[locale];
+---
+
+<BaseLayout locale={locale} title={c.title} description={c.mission}>
+  <div class="flex flex-col">
+    <AboutHero locale={locale} />
+    <AboutValues locale={locale} />
+  </div>
+</BaseLayout>

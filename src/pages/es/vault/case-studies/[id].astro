@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { caseStudies, getCaseStudyById } from "@/data/data";
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({
+    params: { id: study.id },
+  }));
+}
+
+const locale = "es" as const;
+const { id } = Astro.params;
+const study = getCaseStudyById(id!);
+
+if (!study) {
+  return Astro.redirect("/es/vault/case-studies");
+}
+---
+
+<BaseLayout
+  locale={locale}
+  title={study.title}
+  description={study.challenge}
+  ogImage={study.image}
+>
+  <article class="container py-16">
+    <p class="mb-2 text-sm text-muted-foreground">
+      {study.client} · {study.industry}
+    </p>
+    <h1 class="mb-6 text-4xl font-bold tracking-tight md:text-5xl">{study.title}</h1>
+    <p class="mb-6 text-sm text-muted-foreground">
+      Contenido ES pendiente — por ahora se muestra la copia EN del case study.
+    </p>
+    {
+      study.publicUrl && (
+        <p class="mb-8">
+          <a class="underline" href={study.publicUrl} rel="noopener noreferrer" target="_blank">
+            {study.publicUrl}
+          </a>
+        </p>
+      )
+    }
+    <img
+      src={study.image}
+      alt={study.title}
+      class="mb-10 aspect-video w-full max-w-3xl object-cover"
+      loading="eager"
+    />
+    <div class="grid gap-10 md:grid-cols-2">
+      <section>
+        <h2 class="mb-3 text-xl font-semibold">Desafío</h2>
+        <p class="text-muted-foreground">{study.challenge}</p>
+      </section>
+      <section>
+        <h2 class="mb-3 text-xl font-semibold">Solución</h2>
+        <p class="text-muted-foreground">{study.solution}</p>
+      </section>
+    </div>
+    <section class="mt-10">
+      <h2 class="mb-3 text-xl font-semibold">Tecnologías</h2>
+      <ul class="flex flex-wrap gap-2">
+        {
+          study.technologies.map((tech) => (
+            <li class="border border-border px-3 py-1 text-sm">{tech}</li>
+          ))
+        }
+      </ul>
+    </section>
+    <section class="mt-10">
+      <h2 class="mb-3 text-xl font-semibold">Resultados</h2>
+      <ul class="list-disc space-y-2 pl-5 text-muted-foreground">
+        {study.results.map((result) => <li>{result}</li>)}
+      </ul>
+    </section>
+    <p class="mt-10 text-sm text-muted-foreground">
+      Timeline: {study.timeline} · Equipo: {study.teamSize}
+    </p>
+  </article>
+</BaseLayout>
