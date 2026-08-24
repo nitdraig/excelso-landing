@@ -103,7 +103,6 @@ export const vaultCopy = {
     projectsLead:
       "Discover our portfolio of closed-source enterprise solutions delivering measurable impact.",
     viewCase: "View case study",
-    viewAll: "View All Case Studies",
     more: "more",
     ctaTitle: "Elevate your organization's technological capabilities",
     ctaLead:
@@ -125,7 +124,6 @@ export const vaultCopy = {
     projectsLead:
       "Conocé nuestro portfolio de soluciones enterprise closed-source con impacto medible.",
     viewCase: "Ver caso de estudio",
-    viewAll: "Ver todos los casos",
     more: "más",
     ctaTitle: "Elevá las capacidades tecnológicas de tu organización",
     ctaLead:

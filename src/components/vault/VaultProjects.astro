@@ -11,7 +11,12 @@ interface Props {
 
 const { locale } = Astro.props;
 const c = vaultCopy[locale];
-const featured = caseStudies.slice(0, 3);
+const delayClasses = [
+  "reveal-delay-1",
+  "reveal-delay-2",
+  "reveal-delay-3",
+  "reveal-delay-4",
+] as const;
 ---
 
 <section class="w-full py-12 md:py-24 lg:py-32" id="vault-projects">
@@ -29,10 +34,13 @@ const featured = caseStudies.slice(0, 3);
 
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       {
-        featured.map((project) => (
+        caseStudies.map((project, index) => (
           <a
             href={localizePath(`/vault/case-studies/${project.id}`, locale)}
-            class="reveal group relative block overflow-hidden rounded-lg border bg-background transition-all hover:-translate-y-1 hover:shadow-md"
+            class:list={[
+              "reveal group relative block overflow-hidden rounded-lg border bg-background transition-all hover:-translate-y-1 hover:shadow-md",
+              delayClasses[index % delayClasses.length],
+            ]}
           >
             <div class="relative h-48 w-full overflow-hidden">
               <img
@@ -77,16 +85,6 @@ const featured = caseStudies.slice(0, 3);
           </a>
         ))
       }
-    </div>
-
-    <div class="reveal mt-12 text-center">
-      <a
-        href={localizePath("/vault/case-studies", locale)}
-        class="btn btn-lg btn-primary group"
-      >
-        {c.viewAll}
-        <Icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-1" />
-      </a>
     </div>
   </div>
 </section>
