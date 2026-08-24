@@ -45,4 +45,4 @@ Same slugs in both locales (`/contact` ↔ `/es/contact`).
 | 4 Optional polish (Vanta, case study ES bodies) | Pending  |
 | 5 Cutover                                       | Pending  |
 
-Set `MAILPREX_FORM_TOKEN` in `astro/.env` for the contact form.
+Set `MAILPREX_FORM_TOKEN` in `.env` (local) and in the Vercel project env (Production + Preview) for the contact form.
