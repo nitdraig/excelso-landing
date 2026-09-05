@@ -29,6 +29,39 @@ export type OpenSourceProject = {
 
 export const caseStudies: CaseStudy[] = [
   {
+    id: "ate",
+    title: "ATE — Membership Management Platform",
+    publicUrl: "https://clubate.com.ar",
+    client: "ATE",
+    industry: "Non-profit",
+    challenge:
+      "Build a comprehensive membership management system serving three distinct profiles (members, access staff, and administrators), with installment billing, real-time access validation, and a complete admin panel.",
+    solution:
+      "Developed the full-stack solution end to end: data modeling, REST API, member and admin interfaces, and automated testing (unit and service). Migrated receipt storage from base64-in-MongoDB to the Dropbox API (OAuth with refresh tokens and raw=1 shared links) to reduce document size and server response weight. UI/UX design was done in collaboration with Nepal Studio.",
+    technologies: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Express",
+      "MongoDB",
+      "Socket.IO",
+      "Dropbox API",
+    ],
+    results: [
+      "Installment payments with receipt upload and justified approval/rejection",
+      "Payment approval automatically extends membership validity",
+      "Dropbox integration for receipt storage (lighter and scalable)",
+      "JWT-signed QR credentials with real-time scanner for admission staff",
+      "Real-time notifications with Socket.IO and push (VAPID)",
+      "JWT + Google OAuth auth with granular roles (member, access staff, admins, superadmin)",
+      "Admin panel for managing members, staff, plans, tags, and configuration",
+    ],
+    timeline: "2026",
+    teamSize: "1 member",
+    image: "/og/clubate.webp",
+  },
+  {
     id: "mtn",
     title: "MTN - Mining Talent | Find your place in the world",
     publicUrl: "https://miningtalent.net",
