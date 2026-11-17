@@ -1,7 +1,7 @@
 ---
 /**
  * Vanta RINGS hero background (Three.js).
- * Client-only; skipped when prefers-reduced-motion.
+ * Client-only; always rendered, regardless of prefers-reduced-motion.
  */
 ---
 
@@ -29,11 +29,6 @@
   function initVantaRings() {
     const el = document.querySelector<HTMLElement>("[data-vanta-rings]");
     if (!el || effect) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.style.backgroundColor = "#c3c3c3";
-      return;
-    }
 
     // Ensure the host has layout size before WebGL init
     if (el.offsetHeight < 2) {
